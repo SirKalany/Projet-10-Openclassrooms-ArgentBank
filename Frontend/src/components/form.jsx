@@ -1,23 +1,35 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { login } from "../redux/authSlice";
 
 export default function Form() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (username && password) {
-      console.log("Submitted:", { username, password, rememberMe });
-
-      navigate("/user");
-    } else {
+    if (!username || !password) {
       alert("Please enter both username and password.");
+      return;
     }
+
+    const fakeUser = {
+      firstName: "Tony",
+      lastName: "Jarvis",
+      username: username,
+    };
+
+    const fakeToken = "fake-token-123";
+
+    dispatch(login({ user: fakeUser, token: fakeToken }));
+
+    navigate("/user");
   };
 
   return (
