@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import FeatureItem from "../components/FeatureItem";
 
 export default function Home() {
   const features = [
