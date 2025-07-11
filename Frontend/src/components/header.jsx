@@ -1,14 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/authSlice";
 
 export default function Header() {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/sign-in");
   };
 
   return (
@@ -28,9 +30,13 @@ export default function Header() {
             <Link className="main-nav-item" to="/user">
               <i className="fa fa-user-circle"></i> {user.firstName}
             </Link>
-            <Link className="main-nav-item" to="/" onClick={handleLogout}>
+            <button
+              className="main-nav-item"
+              onClick={handleLogout}
+              style={{ background: "none", border: "none", cursor: "pointer" }}
+            >
               <i className="fa fa-sign-out"></i> Sign Out
-            </Link>
+            </button>
           </>
         ) : (
           <Link className="main-nav-item" to="/sign-in">

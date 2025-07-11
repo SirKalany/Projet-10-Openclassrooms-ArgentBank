@@ -60,6 +60,14 @@ body {
 .main-nav-item {
   text-decoration: none;
   margin-right: 0.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
 }
 
 .main-nav-item:hover {

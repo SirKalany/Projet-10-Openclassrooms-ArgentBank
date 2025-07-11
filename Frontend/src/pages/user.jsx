@@ -1,9 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Account from "../components/Account";
 
 export default function User() {
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/sign-in");
+    }
+  }, [isAuthenticated, navigate]);
+
   const accounts = [
     {
       title: "Argent Bank Checking (x8349)",
@@ -22,15 +33,17 @@ export default function User() {
     },
   ];
 
+  if (!user) return null;
+
   return (
     <>
-      <Header loggedIn={true} username="Tony" />
+      <Header loggedIn={true} username={user.firstName} />
       <main className="main bg-dark">
         <div className="header">
           <h1>
             Welcome back
             <br />
-            Tony Jarvis!
+            {user.firstName} {user.lastName}!
           </h1>
           <button className="edit-button">Edit Name</button>
         </div>
