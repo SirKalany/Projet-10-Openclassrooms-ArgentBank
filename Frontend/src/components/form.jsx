@@ -16,7 +16,7 @@ export default function Form() {
     e.preventDefault();
 
     if (!username || !password) {
-      alert("Please enter both username and password.");
+      alert("Please enter both a username and a password.");
       return;
     }
 
@@ -54,7 +54,7 @@ export default function Form() {
         return;
       }
 
-      dispatch(login({ user: profileData.body, token }));
+      dispatch(login({ user: profileData.body, token, rememberMe }));
 
       navigate("/user");
     } catch (err) {
