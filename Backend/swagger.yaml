@@ -190,10 +190,7 @@ paths:
           name: body
           required: true
           schema:
-            type: object
-            properties:
-              category:
-                type: string
+            $ref: '#/definitions/UpdateCategoryRequest'
       responses:
         '200':
           description: Category updated successfully
@@ -221,10 +218,7 @@ paths:
           name: body
           required: true
           schema:
-            type: object
-            properties:
-              note:
-                type: string
+            $ref: '#/definitions/UpdateNoteRequest'
       responses:
         '200':
           description: Note updated successfully
@@ -257,6 +251,7 @@ paths:
 
 definitions:
   User:
+    type: object
     properties:
       email:
         type: string
@@ -275,6 +270,7 @@ definitions:
         description: user public name
 
   Login:
+    type: object
     properties:
       email:
         type: string
@@ -318,24 +314,7 @@ definitions:
       transactions:
         type: array
         items:
-          $ref: '#/definitions/TransactionSummary'
-
-  TransactionSummary:
-    type: object
-    properties:
-      id:
-        type: string
-      date:
-        type: string
-        format: date
-      description:
-        type: string
-      amount:
-        type: number
-        format: float
-      balance:
-        type: number
-        format: float
+          $ref: '#/definitions/TransactionDetails'
 
   TransactionDetails:
     type: object
@@ -355,18 +334,34 @@ definitions:
         format: float
       transactionType:
         type: string
-        description: Type de transaction (ex:debit, credit)
+        description: Type de transaction (ex: debit, credit)
       category:
         type: string
-        description: Catégorie personnalisée (ex:"Shopping", "Transport")
+        description: Catégorie personnalisée (ex: "Shopping", "Transport")
       note:
         type: string
         description: Note personnalisée laissée par l’utilisateur
 
-  UpdateTransactionRequest:
+  UpdateCategoryRequest:
     type: object
     properties:
       category:
         type: string
+        description: Nouvelle catégorie personnalisée
+
+  UpdateNoteRequest:
+    type: object
+    properties:
       note:
         type: string
+        description: Nouvelle note personnalisée
+
+  TransactionResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        $ref: '#/definitions/TransactionDetails'
