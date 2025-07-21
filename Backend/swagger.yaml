@@ -382,19 +382,3 @@ definitions:
       note:
         type: string
         description: New custom note
-
-  TransactionResponse:
-    type: object
-    required:
-      - status
-      - message
-      - body
-    properties:
-      status:
-        type: integer
-        description: Status code of the response
-      message:
-        type: string
-        description: Description of the response status
-      body:
-        $ref: '#/definitions/TransactionDetails'
