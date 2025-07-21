@@ -17,9 +17,9 @@ securityDefinitions:
 
 tags:
   - name: User Module
-    description: Authentification et profil utilisateur
+    description: Authentication and user profile management
   - name: Transactions
-    description: Gestion des transactions
+    description: Transactions management
 
 paths:
   /user/login:
@@ -39,13 +39,13 @@ paths:
         - application/json
       responses:
         '200':
-          description: Login Successfully
+          description: Login successfully
           schema:
             $ref: '#/definitions/LoginResponse'
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '500':
-          description: Internal Server Error
+          description: Internal server error
 
   /user/signup:
     post:
@@ -64,13 +64,13 @@ paths:
         - application/json
       responses:
         '200':
-          description: Signup Successfully
+          description: Signup successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '500':
-          description: Internal Server Error
+          description: Internal server error
 
   /user/profile:
     get:
@@ -78,7 +78,7 @@ paths:
         - Bearer: []
       tags:
         - User Module
-      summary: User Profile API
+      summary: User profile API
       description: API for fetching a user profile
       responses:
         '200':
@@ -86,17 +86,17 @@ paths:
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '401':
           description: Unauthorized
         '500':
-          description: Internal Server Error
+          description: Internal server error
     put:
       security:
         - Bearer: []
       tags:
         - User Module
-      summary: Update User Profile
+      summary: Update user profile
       description: API for updating a user profile
       parameters:
         - in: body
@@ -113,11 +113,11 @@ paths:
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '401':
           description: Unauthorized
         '500':
-          description: Internal Server Error
+          description: Internal server error
 
   /transactions:
     get:
@@ -145,7 +145,7 @@ paths:
         '401':
           description: Unauthorized
         '500':
-          description: Internal Server Error
+          description: Internal server error
 
   /transactions/{transactionId}:
     get:
@@ -153,7 +153,7 @@ paths:
         - Bearer: []
       tags:
         - Transactions
-      summary: Transaction Details
+      summary: Transaction details
       description: API for fetching an account transaction's details
       parameters:
         - name: transactionId
@@ -165,21 +165,21 @@ paths:
         - application/json
       responses:
         '200':
-          description: Transaction informations retrieved successfully
+          description: Transaction information retrieved successfully
           schema:
             $ref: '#/definitions/TransactionDetails'
         '404':
           description: Transaction not found
         '401':
           description: Unauthorized
-          
+
   /transactions/{transactionId}/category:
     put:
       security:
         - Bearer: []
       tags:
         - Transactions
-      summary: Update Transaction Category
+      summary: Update transaction category
       description: API to modify a transaction's category
       parameters:
         - name: transactionId
@@ -195,7 +195,7 @@ paths:
         '200':
           description: Category updated successfully
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '404':
           description: Transaction not found
         '401':
@@ -207,7 +207,7 @@ paths:
         - Bearer: []
       tags:
         - Transactions
-      summary: Update Transaction Note
+      summary: Update transaction note
       description: API to add or modify a transaction's note
       parameters:
         - name: transactionId
@@ -223,7 +223,7 @@ paths:
         '200':
           description: Note updated successfully
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '404':
           description: Transaction not found
         '401':
@@ -234,7 +234,7 @@ paths:
         - Bearer: []
       tags:
         - Transactions
-      summary: Delete Transaction Note
+      summary: Delete transaction note
       description: API to remove the note field from a transaction
       parameters:
         - name: transactionId
@@ -252,65 +252,83 @@ paths:
 definitions:
   User:
     type: object
+    required:
+      - email
+      - password
     properties:
       email:
         type: string
-        description: user email
+        description: User email address
       password:
         type: string
-        description: user password
+        description: User password
       firstName:
         type: string
-        description: user first name
+        description: User first name
       lastName:
         type: string
-        description: user last name
+        description: User last name
       userName:
         type: string
-        description: user public name
+        description: User public username
 
   Login:
     type: object
+    required:
+      - email
+      - password
     properties:
       email:
         type: string
-        description: user email
+        description: User email address
       password:
         type: string
-        description: user password
+        description: User password
 
   ApiResponse:
     type: object
+    required:
+      - status
+      - message
     properties:
       status:
         type: integer
+        description: Status code of the response
       message:
         type: string
+        description: Description of the response status
       body:
         type: object
         properties:
           id:
             type: string
+            description: User identifier
           email:
             type: string
+            description: User email address
 
   LoginResponse:
     type: object
+    required:
+      - token
     properties:
       token:
         type: string
+        description: JWT authentication token
 
   UserProfile:
     type: object
     properties:
       userName:
         type: string
+        description: Public username of the user
 
   GroupedTransactions:
     type: object
     properties:
       accountId:
         type: string
+        description: Account identifier
       transactions:
         type: array
         items:
@@ -321,47 +339,62 @@ definitions:
     properties:
       id:
         type: string
+        description: Transaction identifier
       date:
         type: string
         format: date
+        description: Transaction date
       description:
         type: string
+        description: Transaction description
       amount:
         type: number
         format: float
+        description: Transaction amount
       balance:
         type: number
         format: float
+        description: Account balance after the transaction
       transactionType:
         type: string
-        description: Type de transaction (ex: debit, credit)
+        description: Transaction type (e.g., debit, credit)
       category:
         type: string
-        description: Catégorie personnalisée (ex: "Shopping", "Transport")
+        description: Custom category (e.g., "Shopping", "Transport")
       note:
         type: string
-        description: Note personnalisée laissée par l’utilisateur
+        description: Custom note left by the user
 
   UpdateCategoryRequest:
     type: object
+    required:
+      - category
     properties:
       category:
         type: string
-        description: Nouvelle catégorie personnalisée
+        description: New custom category
 
   UpdateNoteRequest:
     type: object
+    required:
+      - note
     properties:
       note:
         type: string
-        description: Nouvelle note personnalisée
+        description: New custom note
 
   TransactionResponse:
     type: object
+    required:
+      - status
+      - message
+      - body
     properties:
       status:
         type: integer
+        description: Status code of the response
       message:
         type: string
+        description: Description of the response status
       body:
         $ref: '#/definitions/TransactionDetails'
