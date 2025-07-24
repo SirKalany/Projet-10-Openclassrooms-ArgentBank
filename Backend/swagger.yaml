@@ -173,14 +173,13 @@ paths:
         '401':
           description: Unauthorized
 
-  /transactions/{transactionId}/category:
     put:
       security:
         - Bearer: []
       tags:
         - Transactions
-      summary: Update transaction category
-      description: API to modify a transaction's category
+      summary: Update transaction fields
+      description: API to update transaction fields like note or category
       parameters:
         - name: transactionId
           in: path
@@ -190,60 +189,12 @@ paths:
           name: body
           required: true
           schema:
-            $ref: '#/definitions/UpdateCategoryRequest'
+            $ref: '#/definitions/UpdateTransactionRequest'
       responses:
         '200':
-          description: Category updated successfully
+          description: Transaction updated successfully
         '400':
           description: Invalid fields
-        '404':
-          description: Transaction not found
-        '401':
-          description: Unauthorized
-
-  /transactions/{transactionId}/note:
-    put:
-      security:
-        - Bearer: []
-      tags:
-        - Transactions
-      summary: Update transaction note
-      description: API to add or modify a transaction's note
-      parameters:
-        - name: transactionId
-          in: path
-          required: true
-          type: string
-        - in: body
-          name: body
-          required: true
-          schema:
-            $ref: '#/definitions/UpdateNoteRequest'
-      responses:
-        '200':
-          description: Note updated successfully
-        '400':
-          description: Invalid fields
-        '404':
-          description: Transaction not found
-        '401':
-          description: Unauthorized
-
-    delete:
-      security:
-        - Bearer: []
-      tags:
-        - Transactions
-      summary: Delete transaction note
-      description: API to remove the note field from a transaction
-      parameters:
-        - name: transactionId
-          in: path
-          required: true
-          type: string
-      responses:
-        '204':
-          description: Note successfully deleted
         '404':
           description: Transaction not found
         '401':
@@ -357,28 +308,20 @@ definitions:
         description: Account balance after the transaction
       transactionType:
         type: string
-        description: Transaction type (e.g., debit, credit)
+        description: Transaction type
       category:
         type: string
-        description: Custom category (e.g., "Shopping", "Transport")
+        description: Custom category
       note:
         type: string
         description: Custom note left by the user
 
-  UpdateCategoryRequest:
+  UpdateTransactionRequest:
     type: object
-    required:
-      - category
     properties:
       category:
         type: string
         description: New custom category
-
-  UpdateNoteRequest:
-    type: object
-    required:
-      - note
-    properties:
       note:
         type: string
         description: New custom note

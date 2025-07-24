@@ -28,7 +28,7 @@ export default function Header() {
         {user ? (
           <>
             <Link className="main-nav-item" to="/user">
-              <i className="fa fa-user-circle"></i> {user.firstName}
+              <i className="fa fa-user-circle"></i> {user.userName}
             </Link>
             <button
               className="main-nav-item"
